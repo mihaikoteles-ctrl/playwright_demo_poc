@@ -7,14 +7,15 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   
-  reporter: 'html',
+  reporter: process.env.CI 
+    ? [['blob'], ['html', { open: 'never' }]]
+    : 'html',
   
   use: {
-    // Using Sauce Demo - a real working demo application
     baseURL: 'https://www.saucedemo.com',
-    trace: 'on-first-retry',
+    trace: 'on', // Always capture traces
     screenshot: 'only-on-failure',
-    video: 'on'
+    video: 'on', // Always capture videos
   },
 
   projects: [
